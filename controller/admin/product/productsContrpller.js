@@ -185,7 +185,7 @@ updateProductController = async (req, res) => {
                 if (fields?.image) {
                     const parts = fields?.image.split('/');
                     const filename = parts[parts.length - 1];
-                    image = `uploads/${filename}`
+                    image = `/uploads/${filename}`
                     console.log('image', image);
                 } else {
                     image = req.uploadedFiles[0]
