@@ -110,7 +110,11 @@ upload = async (req, res, next) => {
             const fileName = currentDate + '_' + encodeURIComponent(file.originalFilename.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '-'));
             try {
                 // save file ===file path == where upload == file name
+                console.log('file.filepath', file.filepath);
+                console.log('uploadsFolder', uploadsFolder);
+                console.log('fileName', fileName);
                 const saved = await fsPromises.rename(file.filepath, join(uploadsFolder, fileName))
+                console.log('saved', saved);
                 let savefile = `uploads/${fileName}`
                 saveFiles.push(savefile)
             } catch (e) {
