@@ -111,7 +111,7 @@ upload = async (req, res, next) => {
             try {
                 // save file ===file path == where upload == file name
                 const saved = await fsPromises.rename(file.filepath, join(uploadsFolder, fileName))
-                let savefile = `uploads/${fileName}`
+                let savefile = `/uploads/${fileName}`
                 saveFiles.push(savefile)
             } catch (e) {
                 console.log('Error uploading the file')
