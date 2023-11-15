@@ -14,8 +14,15 @@ async function checkCreateUploadsFolder(uploadsFolder) {
     console.log("uploadsFolder", uploadsFolder)
     try {
         // check this folder has or not
-        await fsPromises.access(uploadsFolder);
+        await fsPromises.stat(uploadsFolder);
         console.log('Directory already exists.');
+        // Check if the directory has write permissions
+        const hasWritePermissions = await fsPromises.access(uploadsFolder, fs.constants.W_OK);
+        if (!hasWritePermissions) {
+            console.log('Directory does not have write permissions, changing permissions...');
+            await fsPromises.chmod(uploadsFolder, 0o755);
+            console.log('Directory permissions updated successfully.');
+        }
     } catch (e) {
         // if folder not exist error.code : 'ENOENT' 
         if (e && e.code == 'ENOENT') {
