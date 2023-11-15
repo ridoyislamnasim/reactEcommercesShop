@@ -113,15 +113,20 @@ upload = async (req, res, next) => {
                 console.log('file.filepath', file.filepath);
                 console.log('uploadsFolder', uploadsFolder);
                 console.log('fileName', fileName);
-                const saved = await fsPromises.rename(file.filepath, join(uploadsFolder, fileName))
+                // =======================
+                const sourcePath = path.resolve(file.filepath);
+                const destinationPath = path.resolve(join(uploadsFolder, fileName));
+                await fsPromises.access(sourcePath);
+                // ======================
+                const saved = await fsPromises.rename(sourcePath, destinationPath)
                 console.log('saved', saved);
                 let savefile = `uploads/${fileName}`
                 saveFiles.push(savefile)
             } catch (e) {
-                console.log('Error uploading the file')
+                console.log('Error uploading the file', e)
                 // if fail save than remove file that save 
                 try { await fsPromises.unlink(file.filepath) } catch (e) { }
-                return res.json({ ok: false, msg: 'Error uploading the file mul' })
+                return res.json({ success: false, errorMsg: 'Error uploading the file mul' })
             }
         }
 
