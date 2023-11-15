@@ -27,20 +27,7 @@ const convertToBoolean = async (value) => {
         return false;
     }
 }
-// if img remove need than call this function
-const imageRemove = async (id) => {
-    console.log("imageRemove run")
-    try {
-        const removeProdectImg = await productschema.findById(id)
-        console.log(removeProdectImg)
-        console.log(removeProdectImg.image)
-        try { await fsPromises.unlink(`public/${removeProdectImg.image}`) } catch (e) { console.log('not remove', e) }
-        return true
-    } catch (error) {
-        return false
-    }
 
-}
 // =========================== createProductController===========================
 createProductController = async (req, res) => {
     console.log("req.body")
@@ -101,7 +88,7 @@ createProductController = async (req, res) => {
                     const { name, slug, description, quantity, photo } = saveProduct;
                     const Extract = {
                         ...plainProduct,
-                        image: `http://localhost:2000/${saveProduct.image}`,
+                        image: saveProduct.image
                     }
                     // Login successful
                     res.json({ success: true, message: 'Product Create successful', data: Extract });
@@ -228,7 +215,7 @@ updateProductController = async (req, res) => {
                     // Extract only the required fields
                     const Extract = {
                         ...plainProduct,
-                        image: `http://localhost:2000/${nowUpdateProduct.image}`,
+                        image: nowUpdateProduct.image
                     }
                     console.log('Extract', Extract);
                     // update successful
@@ -265,7 +252,7 @@ getAllProductController = async (req, res) => {
                 const plainProduct = product.toObject();
                 let singleProduct = {
                     ...plainProduct,
-                    image: `http://localhost:2000/${plainProduct.image}`
+                    image: plainProduct.image
                 }
                 Extract.push(singleProduct)
             }
@@ -292,7 +279,7 @@ getSingleProductController = async (req, res) => {
             const plainProduct = Product.toObject();
             let singleProduct = {
                 ...plainProduct,
-                image: `http://localhost:2000/${plainProduct.image}`
+                image: plainProduct.image
             }
 
             // Login successful
@@ -324,7 +311,7 @@ getSimilarProductController = async (req, res) => {
                 const plainProduct = product.toObject();
                 let singleProduct = {
                     ...plainProduct,
-                    image: `http://localhost:2000/${plainProduct.image}`
+                    image: plainProduct.image
                 }
                 Extract.push(singleProduct)
             }
@@ -342,14 +329,6 @@ getSimilarProductController = async (req, res) => {
 }
 // =========================== deleteProductController===========================
 deleteProductController = async (req, res) => {
-    // console.log("=======================================================================", req.params.id)
-    // if (req.params.id) {
-    //     // console.log(await imageRemove(req.params.id))
-    //     if (!await imageRemove(req.params.id)) {
-    //         return res.json({ ok: false, msg: 'inviled id' })
-    //     }
-    // }
-    // Check if the email exists in the database  
     const { id } = req.params;
     // const deleteProduct = await productschema.findByIdAndDelete(id);
     // console.log("deleteProduct", deleteProduct)
