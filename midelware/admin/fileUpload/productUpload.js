@@ -2,10 +2,10 @@
 const bluebird = require('bluebird')
 // const fs = bluebird.promisifyAll(require('fs'))
 const Formidable = require("formidable")
-const { join } = require("path")
+const path = require('path');
+const { join } = require('path');
 const fs = require('fs');
 const { Console } = require('console');
-
 const fsPromises = require('fs').promises;
 // model
 const productschema = require('../../../models/product/productModel');
@@ -116,7 +116,11 @@ upload = async (req, res, next) => {
                 // =======================
                 const sourcePath = path.resolve(file.filepath);
                 const destinationPath = path.resolve(join(uploadsFolder, fileName));
-                await fsPromises.access(sourcePath);
+                const acces = await fsPromises.access(sourcePath);
+                console.log('sourcePath file.filepath', sourcePath);
+                console.log('destinationPath uploadsFolder', destinationPath);
+                console.log('acces ', acces);
+
                 // ======================
                 const saved = await fsPromises.rename(sourcePath, destinationPath)
                 console.log('saved', saved);
