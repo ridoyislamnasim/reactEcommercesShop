@@ -14,7 +14,7 @@ async function checkCreateUploadsFolder(uploadsFolder) {
     console.log("uploadsFolder", uploadsFolder)
     try {
         // check this folder has or not
-        await fsPromises.stat(uploadsFolder);
+        await fsPromises.access(uploadsFolder);
         console.log('Directory already exists.');
     } catch (e) {
         // if folder not exist error.code : 'ENOENT' 
