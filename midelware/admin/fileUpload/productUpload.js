@@ -122,7 +122,7 @@ upload = async (req, res, next) => {
                 // console.log('acces ', acces);
 
                 // ======================
-                const saved = await fsPromises.rename(uploadsFolder, destinationPath)
+                const saved = await fsPromises.rename(sourcePath, destinationPath)
                 console.log('saved', saved);
                 let savefile = `uploads/${fileName}`
                 saveFiles.push(savefile)
