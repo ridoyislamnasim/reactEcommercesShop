@@ -5,8 +5,8 @@ const Formidable = require("formidable")
 const path = require('path');
 const { join } = require('path');
 const fs = require('fs');
-const { Console } = require('console');
 const fsPromises = require('fs').promises;
+const { stat, access, rename } = require('fs').promises;
 // model
 const productschema = require('../../../models/product/productModel');
 // Returns true if successful or false otherwise
@@ -116,13 +116,13 @@ upload = async (req, res, next) => {
                 // =======================
                 const sourcePath = path.resolve(file.filepath);
                 const destinationPath = path.resolve(join(uploadsFolder, fileName));
-                const acces = await fsPromises.access(sourcePath);
+                // const acces = await fsPromises.access(sourcePath);
                 console.log('sourcePath file.filepath', sourcePath);
                 console.log('destinationPath uploadsFolder', destinationPath);
-                console.log('acces ', acces);
+                // console.log('acces ', acces);
 
                 // ======================
-                const saved = await fsPromises.rename(sourcePath, destinationPath)
+                const saved = await fsPromises.rename(uploadsFolder, destinationPath)
                 console.log('saved', saved);
                 let savefile = `uploads/${fileName}`
                 saveFiles.push(savefile)
