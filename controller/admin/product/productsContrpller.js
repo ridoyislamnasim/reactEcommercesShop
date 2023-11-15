@@ -11,7 +11,7 @@ const mongoose = require("mongoose");
 // remove image in file system
 const removeLocalImage = async (img) => {
     console.log('removeLocalImage', img)
-    try { await fsPromises.unlink(`public/${img}`) } catch (e) { console.log('not remove', e) }
+    try { await fsPromises.unlink(`public${img}`) } catch (e) { console.log('not remove', e) }
 }
 // convert To Boolean
 const convertToBoolean = async (value) => {
@@ -75,7 +75,7 @@ createProductController = async (req, res) => {
                     ...fields,
                     shipping: shippingBoolean,
                     slug: slug,
-                    image: req.uploadedFiles[0]
+                    image: `/${req.uploadedFiles[0]}`
                 });
                 const saveProduct = await createNewProduct.save()
                 // let savefile = `http://localhost:2000/uploads/${fileName}`
