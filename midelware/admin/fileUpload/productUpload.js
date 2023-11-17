@@ -67,6 +67,8 @@ upload = async (req, res, next) => {
     }
     form.parse(req, async (err, fields, files) => {
         // Convert fields from arrays to single strings
+        console.log('fields', fields);
+        console.log('files', files);
         const transformedFields = {};
         for (const key in fields) {
             transformedFields[key] = Array.isArray(fields[key]) ? fields[key][0] : fields[key];
