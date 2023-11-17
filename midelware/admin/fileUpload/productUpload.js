@@ -2,10 +2,11 @@
 const bluebird = require('bluebird')
 const fs = bluebird.promisifyAll(require('fs'))
 const Formidable = require("formidable")
-const path = require('path');
-const { join } = require('path');
+const { join } = require("path")
+// const fs = require('fs');
+const { Console } = require('console');
+
 const fsPromises = require('fs').promises;
-const { stat, access, rename } = require('fs').promises;
 // model
 const productschema = require('../../../models/product/productModel');
 // Returns true if successful or false otherwise
@@ -13,13 +14,8 @@ async function checkCreateUploadsFolder(uploadsFolder) {
     console.log("uploadsFolder", uploadsFolder)
     try {
         // check this folder has or not
-        const stats = await fsPromises.stat(uploadsFolder);
+        await fsPromises.stat(uploadsFolder);
         console.log('Directory already exists.');
-        if (!stats.isDirectory() || !(stats.mode & fs.constants.W_OK)) {
-            console.log('Directory does not exist or has insufficient permissions, fixing permissions...');
-            await fsPromises.chmod(uploadsFolder, 0o755);
-            console.log('Directory permissions updated successfully.');
-        }
     } catch (e) {
         // if folder not exist error.code : 'ENOENT' 
         if (e && e.code == 'ENOENT') {
@@ -53,9 +49,10 @@ upload = async (req, res, next) => {
     // receive file and fild for form
 
     let form = new Formidable.IncomingForm()
-    console.log("------------form----------")
+    console.log("------------form--------- ridoy-")
 
     // make upload directory getCurrentFolderPath = __dirname than ../../ go main folder
+    console.log('__dirname=====================================', __dirname);
     const uploadsFolder = join(__dirname, '../../../public', 'uploads')
     // if wanted multiples file to make true otherwise single file receive
     form.multiples = true
@@ -114,27 +111,14 @@ upload = async (req, res, next) => {
             const fileName = currentDate + '_' + encodeURIComponent(file.originalFilename.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '-'));
             try {
                 // save file ===file path == where upload == file name
-                console.log('file.filepath', file.filepath);
-                console.log('uploadsFolder', uploadsFolder);
-                console.log('fileName', fileName);
-                // =======================
-                const sourcePath = path.resolve(file.filepath);
-                const destinationPath = path.resolve(join(uploadsFolder, fileName));
-                // const acces = await fsPromises.access(sourcePath);
-                console.log('sourcePath file.filepath', sourcePath);
-                console.log('destinationPath uploadsFolder', destinationPath);
-                // console.log('acces ', acces);
-
-                // ======================
-                const saved = await fsPromises.rename(sourcePath, destinationPath)
-                console.log('saved', saved);
+                const saved = await fsPromises.rename(file.filepath, join(uploadsFolder, fileName))
                 let savefile = `uploads/${fileName}`
                 saveFiles.push(savefile)
             } catch (e) {
-                console.log('Error uploading the file', e)
+                console.log('Error uploading the file')
                 // if fail save than remove file that save 
                 try { await fsPromises.unlink(file.filepath) } catch (e) { }
-                return res.json({ success: false, errorMsg: 'Error uploading the file mul' })
+                return res.json({ ok: false, msg: 'Error uploading the file mul' })
             }
         }
 
