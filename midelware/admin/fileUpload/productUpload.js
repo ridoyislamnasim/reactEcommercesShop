@@ -1,10 +1,9 @@
 
 const bluebird = require('bluebird')
-// const fs = bluebird.promisifyAll(require('fs'))
+const fs = bluebird.promisifyAll(require('fs'))
 const Formidable = require("formidable")
 const path = require('path');
 const { join } = require('path');
-const fs = require('fs');
 const fsPromises = require('fs').promises;
 const { stat, access, rename } = require('fs').promises;
 // model
