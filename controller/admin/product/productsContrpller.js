@@ -257,7 +257,8 @@ updateProductController = async (req, res) => {
 getAllProductController = async (req, res) => {
     // Check if the email exists in the database  
     try {
-        const AllProduct = await productschema.find().limit(12).sort({ updatedAt: -1 }).populate("category");
+        // .limit(12)
+        const AllProduct = await productschema.find().sort({ updatedAt: -1 }).populate("category");
         if (AllProduct.length > 0) {
             const Extract = []
             for (const product of AllProduct) {
@@ -313,7 +314,7 @@ getSimilarProductController = async (req, res) => {
 
         const AllProduct = await productschema
             .find({ category: ca_id, _id: { $nin: [cp_id] } })
-            .limit(6)
+            .limit(4)
             .populate("category");
 
         console.log('Product', AllProduct);
