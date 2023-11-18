@@ -19,7 +19,7 @@ const { createProductController,
     getSingleProductController } = require("../../controller/admin/product/productsContrpller");
 
 // const { upload } = require("../../controller/admin/product/productImg");
-const { upload } = require("../../midelware/admin/fileUpload/productUpload");
+const uploadMiddleware = require("../../midelware/admin/fileUpload/productUpload");
 
 //validator 
 // const { singinValidators } = require("../../validator/auth/registrationStudentValidator");
@@ -58,12 +58,12 @@ admin.delete('/delete-category/:id',
 // ===================================================
 admin.post('/create-product',
     // requireSignIn,
-    upload,
+    uploadMiddleware,
     createProductController
 );
 admin.put('/update-product/:id',
     // requireSignIn,
-    upload,
+    uploadMiddleware,
     updateProductController
 );
 admin.delete('/delete-product/:id',
