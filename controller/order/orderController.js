@@ -4,6 +4,29 @@ const registrationschema = require("../../models/auth/registration");
 const JWT = require("jsonwebtoken")
 const { hashPassword } = require("../common/function/common");
 const orderschema = require("../../models/order/orderModel");
+// function addPublicPathToImages(order) {
+//     const modifiedOrder = {};
+//     for (const key in order) {
+//         if (order.hasOwnProperty(key)) {
+//             const product = order[key];
+//             const modifiedProduct = {
+//                 ...product,
+//                 image: 'http://localhost:2000/' + product.image
+//             };
+//             modifiedOrder[key] = modifiedProduct;
+//         }
+//     }
+//     return modifiedOrder;
+// }
+// const addPublicPathToImages = async (order) => {
+//     const modifiedOrder = { ...order };
+//     for (const key in modifiedOrder) {
+//         if (modifiedOrder.hasOwnProperty(key)) {
+//             modifiedOrder[key].image = 'http://localhost:2000/' + modifiedOrder[key].image;
+//         }
+//     }
+//     return modifiedOrder;
+// }
 
 
 const updateProductImageUrls = async (data, imagePath) => {
@@ -29,7 +52,7 @@ orderProduct = async (req, res) => {
         for (const order of orders) {
             const orderById = await orderschema.findById(order._id).populate("buyer").populate("products")
             console.log('orderById ---', orderById);
-            let data = await updateProductImageUrls(orderById, '')
+            let data = await updateProductImageUrls(orderById, 'http://localhost:2000/')
             fullOorder.push(data)
             console.log('modifiedOrders-------------------------', data);
             // await populateProducts(order);
@@ -60,7 +83,7 @@ allOrderController = async (req, res) => {
                 }
             })
             console.log('orderById ---', orderById);
-            let data = await updateProductImageUrls(orderById, '')
+            let data = await updateProductImageUrls(orderById, 'http://localhost:2000/')
             fullOorder.push(data)
             console.log('modifiedOrders-------------------------', data);
             // await populateProducts(order);

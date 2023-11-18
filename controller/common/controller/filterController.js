@@ -50,7 +50,7 @@ filter = async (req, res) => {
                 const plainProduct = product.toObject();
                 let singleProduct = {
                     ...plainProduct,
-                    image: plainProduct.image
+                    image: `http://localhost:2000/${plainProduct.image}`
                 }
                 Extract.push(singleProduct)
             }
@@ -90,7 +90,7 @@ getCategoryProductController = async (req, res) => {
                 const plainProduct = product.toObject();
                 let singleProduct = {
                     ...plainProduct,
-                    image: plainProduct.image
+                    image: `http://localhost:2000/${plainProduct.image}`
                 }
                 Extract.push(singleProduct)
             }
