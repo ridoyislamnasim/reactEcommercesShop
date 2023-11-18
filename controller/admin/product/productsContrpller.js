@@ -85,7 +85,7 @@ createProductController = async (req, res) => {
                     ...fields,
                     shipping: shippingBoolean,
                     slug: slug,
-                    image: `uploads/${req.file.filename}`
+                    image: `/uploads/${req.file.filename}`
                 });
                 const saveProduct = await createNewProduct.save()
                 // let savefile = `http://localhost:2000/uploads/${fileName}`
@@ -194,10 +194,10 @@ updateProductController = async (req, res) => {
                 if (fields?.image) {
                     const parts = fields?.image.split('/');
                     const filename = parts[parts.length - 1];
-                    image = `uploads/${filename}`
+                    image = `/uploads/${filename}`
                     console.log('image', image);
                 } else {
-                    image = `uploads/${req.file.filename}`
+                    image = `/uploads/${req.file.filename}`
                 }
                 const updateProduct = await productschema.findByIdAndUpdate(productId,
                     {
